@@ -12,7 +12,7 @@ grant create session to Database_administration_2019;
 
 grant create table to Database_administration_2019 with admin option;
 
-create tablespace data datafile '/Users/xxx/Documents/Oracle' size 500M; -- Datafile location is unique to machine
+create tablespace data datafile '/Users/marc/Documents/Oracle' size 500M; -- Datafile location is unique to machine
 
 alter database default tablespace users;
 
@@ -26,13 +26,17 @@ create table Customer(
   ID_number number primary key not null ,
   FirstName varchar(50),
   LastName varchar(50),
-  DOB date,
-  Gender char(1)
+  DOB date
+);
+
+create table CustomerGender(
+  ID_number number references Customer(ID_number),
+  Gender varchar(10)
 );
 
 create table CustomerMobile(
-  MobileNumber number not null,
-  ID_number number references Customer(ID_number)
+  ID_number number references Customer(ID_number),
+  MobileNumber number
 );
 
 create table MailType(
@@ -43,13 +47,13 @@ create table MailType(
 
 create table Mail(
   ID_number number references Customer(ID_number),
+  TypeID number references MailType(TypeID),
   SenderID number primary key not null,
   RecipientID number,
   DateReceived date,
   DateAssigned date,
   DateDelivered date,
   Weight number,
-  MailType varchar(20),
   Status varchar(20),
   Cost number
 );
@@ -61,6 +65,25 @@ create table Employee(
   DOB date,
   Gender char(1)
 );
+
+create table EmployeeGender(
+  TRN number references Employee(TRN),
+  Gender varchar(10)
+);
+
+create table AuditData(
+  Audit_ID number primary key not null,
+  Audit_name varchar(100),
+  TIMESTAMP date
+);
+
+create table LogReport(
+  LogID number primary key not null,
+  Log_name varchar(100),
+  TIMESTAMP date
+);
+
+
 
 
 
